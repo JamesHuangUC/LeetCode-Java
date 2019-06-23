@@ -30,15 +30,51 @@
  * the divide and conquer approach, which is more subtle.
  * 
  */
+// class Solution {
+//     public int maxSubArray(int[] nums) {
+//         int currMax = nums[0];
+//         int res = nums[0];
+//         for (int i = 1; i < nums.length; i++) {
+//             currMax = Math.max(nums[i], currMax+nums[i]);
+//             res = Math.max(res, currMax);
+//         }
+//         return res;
+//     }
+// }
+
 class Solution {
-    public int maxSubArray(int[] nums) {
-        int currMax = nums[0];
-        int res = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            currMax = Math.max(nums[i], currMax+nums[i]);
-            res = Math.max(res, currMax);
+    int helper(int[] nums, int left, int right) {
+        int sum = 0, leftSum = Integer.MIN_VALUE, rightSum = Integer.MIN_VALUE;
+        int mid = left + (right - left) / 2;
+        
+        for (int i = mid; i >= left; i--) {
+            sum += nums[i];
+            if (sum > leftSum) {
+                leftSum = sum;
+            }
         }
-        return res;
+        sum = 0;
+        for (int i = mid+1; i <= right; i++) {
+            sum += nums[i];
+            if (sum > rightSum) {
+                rightSum = sum;
+            }
+        }
+        sum = leftSum + rightSum;
+        return sum;
+    }
+
+    int maxSubArrayHelper(int[] nums, int left, int right) {
+        if (left == right) {
+            return nums[left];
+        }
+        int mid = left + (right - left) / 2;
+        return Math.max(Math.max(maxSubArrayHelper(nums, left, mid),
+            maxSubArrayHelper(nums, mid+1, right)),
+            helper(nums, left, right));
+    }
+
+    public int maxSubArray(int[] nums) {
+        return maxSubArrayHelper(nums, 0, nums.length-1);
     }
 }
-
