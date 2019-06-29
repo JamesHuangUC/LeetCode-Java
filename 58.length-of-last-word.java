@@ -33,7 +33,19 @@
  */
 class Solution {
     public int lengthOfLastWord(String s) {
-        return s.trim().length() - 1 - s.trim().lastIndexOf(" ");
+        // return s.trim().length() - 1 - s.trim().lastIndexOf(" ");
+        if (s.length() == 0) return 0;
+        int right = s.length()-1;
+        while (right >= 0 && s.charAt(right) == ' ') {
+            right -= 1;
+        }
+        int res = 0;
+        while (right >= 0 && s.charAt(right) != ' ') {
+            right -= 1;
+            res += 1;
+        }
+
+        return res;
     }
 }
 
