@@ -71,24 +71,10 @@
 // }
 
 class Solution {
-    void helper(int[][] memo) {
-        for (int c = 0; c < memo[0].length; c++) {
-            memo[0][c] = 1;
-        }
-        for (int r = 0; r < memo.length; r++) {
-            memo[r][0] = 1;
-        }
-
-        for (int r = 1; r < memo.length; r++) {
-            for (int c = 1; c < memo[0].length; c++) {
-                memo[r][c] = memo[r - 1][c] + memo[r][c - 1];
-            }
-        }
-    }
-
     public int uniquePaths(int m, int n) {
         int[] memo = new int[m];
         Arrays.fill(memo, 1);
+
         for (int r = 1; r < n; r++) {
             for (int c = 1; c < m; c++) {
                 memo[c] += memo[c-1];
