@@ -47,24 +47,39 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+// class Solution {
+//     public List<List<Integer>> levelOrder(TreeNode root) {
+//         List<List<Integer>> res = new ArrayList<>();
+//         if (root == null) return res;
+//         Queue<TreeNode> q = new LinkedList<>();
+//         q.offer(root);
+//         while (!q.isEmpty()) {
+//             List<Integer> temp = new ArrayList<>();
+//             for (int i = q.size()-1; i >= 0; i--) {
+//                 TreeNode pop = q.poll();
+//                 temp.add(pop.val);
+//                 if (pop.left != null) q.offer(pop.left);
+//                 if (pop.right != null) q.offer(pop.right);
+//             }
+//             res.add(new ArrayList<>(temp));
+//         }
+
+//         return res;
+//     }
+// }
+
 class Solution {
+    void helper(TreeNode root, List<List<Integer>> res, int level) {
+        if (root == null) return;
+        if (res.size() <= level) res.add(new ArrayList<>());
+        res.get(level).add(root.val);
+        helper(root.left, res, level+1);
+        helper(root.right, res, level+1);
+    }
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) return res;
-        Queue<TreeNode> q = new LinkedList<>();
-        q.offer(root);
-        while (!q.isEmpty()) {
-            List<Integer> temp = new ArrayList<>();
-            for (int i = q.size()-1; i >= 0; i--) {
-                TreeNode pop = q.poll();
-                temp.add(pop.val);
-                if (pop.left != null) q.offer(pop.left);
-                if (pop.right != null) q.offer(pop.right);
-            }
-            res.add(new ArrayList<>(temp));
-        }
-
+        helper(root, res, 0);
         return res;
     }
 }
-
