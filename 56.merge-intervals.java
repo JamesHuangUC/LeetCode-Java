@@ -35,38 +35,60 @@
  * default code definition to get new method signature.
  * 
  */
+// class Solution {
+//     public int[][] merge(int[][] intervals) {
+//         List<int[]> res = new ArrayList<>();
+//         if (intervals == null || intervals.length == 0) {
+//             return new int[0][0];
+//         }
+
+//         int[] start = new int[intervals.length];
+//         int[] end = new int[intervals.length];
+//         for (int i = 0; i < intervals.length; i++) {
+//             start[i] = intervals[i][0];
+//             end[i] = intervals[i][1];
+//         }
+//         Arrays.sort(start);
+//         Arrays.sort(end);
+
+//         int i = 0;
+//         while (i < intervals.length) {
+//             int st = start[i];
+//             while (i + 1 < intervals.length && end[i] >= start[i+1]) {
+//                 i += 1;
+//             }
+//             int en = end[i];
+
+//             int[] temp = new int[2];
+//             temp[0] = st;
+//             temp[1] = en;
+//             res.add(temp);
+//             i += 1;
+//         }
+
+//         return res.toArray(new int[0][]);
+//     }
+// }
+
 class Solution {
     public int[][] merge(int[][] intervals) {
+        if (intervals == null || intervals.length == 0) return new int[0][];
+        Arrays.sort(intervals, (int[] a, int[] b) -> Integer.compare(a[0], b[0]));
+        int start = intervals[0][0];
+        int end = intervals[0][1];
         List<int[]> res = new ArrayList<>();
-        if (intervals == null || intervals.length == 0) {
-            return new int[0][0];
-        }
 
-        int[] start = new int[intervals.length];
-        int[] end = new int[intervals.length];
-        for (int i = 0; i < intervals.length; i++) {
-            start[i] = intervals[i][0];
-            end[i] = intervals[i][1];
-        }
-        Arrays.sort(start);
-        Arrays.sort(end);
-
-        int i = 0;
-        while (i < intervals.length) {
-            int st = start[i];
-            while (i + 1 < intervals.length && end[i] >= start[i+1]) {
-                i += 1;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] > end) {
+                res.add(new int[] { start, end });
+                start = intervals[i][0];
+                end = intervals[i][1];
+            } else {
+                end = Math.max(end, intervals[i][1]);
             }
-            int en = end[i];
-
-            int[] temp = new int[2];
-            temp[0] = st;
-            temp[1] = en;
-            res.add(temp);
-            i += 1;
         }
+        res.add(new int[] { start, end });
 
         return res.toArray(new int[0][]);
     }
 }
-
