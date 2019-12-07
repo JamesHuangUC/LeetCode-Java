@@ -42,16 +42,14 @@ class Solution {
             return res;
         }
         List<Integer> lst = new ArrayList<>();
-        int fix = 0, target = 0;
-        int left = 0, right = 0;
         for (int i = 0; i < nums.length; i++) {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
-            fix = nums[i];
-            target = 0 - fix;
-            left = i + 1;
-            right = nums.length - 1;
+            int fix = nums[i];
+            int target = 0 - fix;
+            int left = i + 1;
+            int right = nums.length - 1;
             while (left < right) {
                 if (nums[left] + nums[right] == target) {
                     res.add(Arrays.asList(nums[i], nums[left], nums[right]));
