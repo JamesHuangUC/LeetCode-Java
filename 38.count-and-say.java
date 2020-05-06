@@ -50,29 +50,47 @@
  * Output: "1211"
  * 
  */
+// class Solution {
+//     public String countAndSay(int n) {
+//         if (n == 1) return "1";
+
+//         StringBuilder temp = new StringBuilder();
+//         StringBuilder res = new StringBuilder("1");
+
+//         while (--n > 0) {
+//             for (int i = 0; i < res.length(); i++) {
+//                 int count = 1;
+//                 while (i + 1 < res.length() && res.charAt(i) == res.charAt(i+1)) {
+//                     i += 1;
+//                     count += 1;
+//                 }
+//                 temp.append(count);
+//                 temp.append(res.charAt(i));
+//             }
+//             res.setLength(0);
+//             res.append(temp);
+//             temp.setLength(0);
+//         }
+
+//         return res.toString();
+//     }
+// }
+
 class Solution {
     public String countAndSay(int n) {
         if (n == 1) return "1";
+        String previous = countAndSay(n - 1);
+        StringBuilder res = new StringBuilder();
 
-        StringBuilder temp = new StringBuilder();
-        StringBuilder res = new StringBuilder("1");
-
-        while (--n > 0) {
-            for (int i = 0; i < res.length(); i++) {
-                int count = 1;
-                while (i + 1 < res.length() && res.charAt(i) == res.charAt(i+1)) {
-                    i += 1;
-                    count += 1;
-                }
-                temp.append(count);
-                temp.append(res.charAt(i));
+        for (int i = 0; i < previous.length();) {
+            int j = i + 1;
+            while (j < previous.length() && previous.charAt(i) == previous.charAt(j)) {
+                j += 1;
             }
-            res.setLength(0);
-            res.append(temp);
-            temp.setLength(0);
+            res.append(j - i);
+            res.append(previous.charAt(i));
+            i = j;
         }
-
         return res.toString();
     }
 }
-
