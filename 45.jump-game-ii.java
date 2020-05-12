@@ -34,24 +34,42 @@
  * You can assume that you can always reach the last index.
  * 
  */
+// class Solution {
+//     public int jump(int[] nums) {
+//         if (nums == null || nums.length <= 1) return 0;
+//         int step = 0;
+//         int curMax = 0, nextMax = 0, ind = 0;
+//         while (ind <= curMax) {
+//             while (ind <= curMax) {
+//                 nextMax = Math.max(nextMax, ind+nums[ind]);
+//                 ind += 1;
+//             }
+//             step += 1;
+//             curMax = nextMax;
+//             if (curMax >= nums.length-1) {
+//                 return step;
+//             }
+//         }
+
+//         return 0;
+//     }
+// }
+
 class Solution {
     public int jump(int[] nums) {
         if (nums == null || nums.length <= 1) return 0;
         int step = 0;
-        int curMax = 0, nextMax = 0, ind = 0;
-        while (ind <= curMax) {
-            while (ind <= curMax) {
-                nextMax = Math.max(nextMax, ind+nums[ind]);
-                ind += 1;
-            }
-            step += 1;
-            curMax = nextMax;
-            if (curMax >= nums.length-1) {
-                return step;
+        int farthest = 0;
+        int end = 0;
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            farthest = Math.max(farthest, i + nums[i]);
+            if (i == end) {
+                step += 1;
+                end = farthest;
             }
         }
 
-        return 0;
+        return step;
     }
 }
-
