@@ -51,33 +51,23 @@
  */
 class Solution {
     public int minDistance(String word1, String word2) {
-        int row = word1.length();
-        int col = word2.length();
-        int[][] dp = new int[row+1][col+1];
-        
-        for (int r = 0; r < dp.length; r++) {
-            dp[r][0] = r;
-        }
-        for (int c = 0; c < dp[0].length; c++) {
-            dp[0][c] = c;
-        }
+        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
 
-        for (int r = 1; r < dp.length; r++) {
-            for (int c = 1; c < dp[0].length; c++) {
-                dp[r][c] = Integer.MAX_VALUE;
-                char c1 = word1.charAt(r-1);
-                char c2 = word2.charAt(c-1);
-                if (c1 == c2) {
-                    int temp = Math.min(dp[r-1][c], dp[r][c-1]) + 1;
-                    dp[r][c] = Math.min(temp, dp[r-1][c-1]);
+        for (int r = 0; r <= word1.length(); r++) {
+            for (int c = 0; c <= word2.length(); c++) {
+                if (r == 0) {
+                    dp[r][c] = c;
+                } else if (c == 0) {
+                    dp[r][c] = r;
+                } else if (word1.charAt(r - 1) == word2.charAt(c - 1)) {
+                    dp[r][c] = dp[r - 1][c - 1];
                 } else {
-                    int temp = Math.min(dp[r-1][c], dp[r][c-1]) + 1;
-                    dp[r][c] = Math.min(temp, dp[r-1][c-1]+1);
+                    dp[r][c] = 1 + Math.min(dp[r - 1][c - 1], Math.min(dp[r - 1][c], dp[r][c - 1]));
                 }
             }
         }
 
-        return dp[row][col];
+        return dp[word1.length()][word2.length()];
     }
 }
 
