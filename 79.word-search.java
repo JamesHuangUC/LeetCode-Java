@@ -35,44 +35,6 @@
  * 
  * 
  */
-// class Solution {
-//     boolean helper(char[][] board, char[] wordArr, int r, int c, boolean[][] isUsed, int idx) {
-//         if (idx == wordArr.length) {
-//             return true;
-//         }
-//         if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) {
-//             return false;
-//         }
-//         if (isUsed[r][c] == true) {
-//             return false;
-//         }
-//         if (board[r][c] != wordArr[idx]) {
-//             return false;
-//         }
-//         isUsed[r][c] = true;
-//         if (helper(board, wordArr, r - 1, c, isUsed, idx + 1)) return true;
-//         if (helper(board, wordArr, r + 1, c, isUsed, idx + 1)) return true;
-//         if (helper(board, wordArr, r, c - 1, isUsed, idx + 1)) return true;
-//         if (helper(board, wordArr, r, c + 1, isUsed, idx + 1)) return true;
-//         isUsed[r][c] = false;
-//         return false;
-//     }
-
-//     public boolean exist(char[][] board, String word) {
-//         if (board == null || board.length == 0) return false;
-//         if (word == null || word.length() == 0) return false;
-//         boolean[][] isUsed = new boolean[board.length][board[0].length];
-//         for (int r = 0; r < board.length; r++) {
-//             for (int c = 0; c < board[0].length; c++) {
-//                 if (helper(board, word.toCharArray(), r, c, isUsed, 0)) {
-//                     return true;
-//                 }
-//             }
-//         }
-//         return false;
-//     }
-// }
-
 class Solution {
     boolean helper(char[][] board, char[] word, int curIdx, int r, int c) {
         if (curIdx == word.length) return true;
