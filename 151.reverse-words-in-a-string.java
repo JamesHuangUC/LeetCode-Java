@@ -87,23 +87,23 @@
 // }
 
 class Solution {
-     public String reverseWords(String s) {
-         int start = 0, end = 0;
-         int n = s.length();
-         String res = "";
+    public String reverseWords(String s) {
+        int start = 0, end = 0;
+        int n = s.length();
+        String res = "";
+        
+        while (start < n) {
+            while (start < n && s.charAt(start) == ' ') start += 1;
+            if (start == n) break;
+            end = start + 1;
+            while (end < n && s.charAt(end) != ' ') end += 1;
+            if (res.length() == 0) res = s.substring(start, end);
+            else res = s.substring(start, end) + " " + res;
+            start = end + 1;
+        }
 
-         while (start < n) {
-             while (start < n && s.charAt(start) == ' ') start += 1;
-             if (start == n) break;
-             end = start + 1;
-             while (end < n && s.charAt(end) != ' ') end += 1;
-             if (res.length() == 0) res = s.substring(start, end);
-             else res = s.substring(start, end) + " " + res;
-             start = end + 1;
-         }
-
-         return res;
-     }
- }
+        return res;
+    }
+}
 // @lc code=end
 
