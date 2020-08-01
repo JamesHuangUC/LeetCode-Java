@@ -45,23 +45,26 @@
  * }
  */
 class Solution {
-    TreeNode helper(int[] inorder, int[] postorder, int inStart, int inEnd, int postStart, int postEnd) {
-        if (inStart > inEnd || postStart > postEnd) return null;
-        TreeNode root = new TreeNode(postorder[postEnd]);
-        int i = inStart;
-        while (i <= inEnd) {
-            if (inorder[i] == postorder[postEnd]) break;
-            i += 1;
-        }
-        root.left = helper(inorder, postorder, inStart, i-1, postStart, postStart+(i-inStart)-1);
-        root.right = helper(inorder, postorder, i+1, inEnd, postStart+(i-inStart), postEnd-1);
+    TreeNode helper(int[] inorder, int[] postorder, int left, int right, int rootIdx, Map<Integer, Integer> hm) {
+        if (left > right) return null;
+        if (left == right) return new TreeNode(postorder[rootIdx]);
+
+        TreeNode root = new TreeNode(postorder[rootIdx]);
+
+        int inorderRootIdx = hm.get(postorder[rootIdx]);
+
+        root.right = helper(inorder, postorder, inorderRootIdx+1, right, rootIdx-1, hm);
+        root.left = helper(inorder, postorder, left, inorderRootIdx-1, rootIdx - (right - inorderRootIdx + 1), hm);
 
         return root;
     }
-
+    
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        if (inorder == null || postorder == null || inorder.length == 0 || postorder.length != inorder.length) return null;
-        return helper(inorder, postorder, 0, inorder.length-1, 0, postorder.length-1);
+        Map<Integer, Integer> hm = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            hm.put(inorder[i], i);
+        }
+        return helper(inorder, postorder, 0, inorder.length-1, postorder.length-1, hm);
     }
 }
 
