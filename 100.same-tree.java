@@ -65,15 +65,41 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+// class Solution {
+//     public boolean isSameTree(TreeNode p, TreeNode q) {
+//         if (p == null) return q == null;
+//         if (q == null) return p == null;
+//         if (p.val == q.val) {
+//             return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+//         } else {
+//             return false;
+//         }
+//     }
+// }
+
 class Solution {
+    boolean helper(TreeNode p, TreeNode q) {
+        if (p == null && q == null) return true;
+        if (p == null || q == null) return false;
+        if (p.val != q.val) return false;
+        return true;
+    }
+
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        if (p == null) return q == null;
-        if (q == null) return p == null;
-        if (p.val == q.val) {
-            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
-        } else {
-            return false;
+        if (!helper(p, q)) return false;
+        Queue<TreeNode> q1 = new LinkedList<>();
+        Queue<TreeNode> q2 = new LinkedList<>();
+        if (p != null) q1.offer(p);
+        if (q != null) q2.offer(q);
+        while(!q1.isEmpty() && !q2.isEmpty()) {
+            TreeNode curP = q1.poll();
+            TreeNode curQ = q2.poll();
+            if (!helper(curP.left, curQ.left) || !helper(curP.right, curQ.right)) return false;
+            if (curP.left != null) q1.offer(curP.left);
+            if (curP.right != null) q1.offer(curP.right);
+            if (curQ.left != null) q2.offer(curQ.left);
+            if (curQ.right != null) q2.offer(curQ.right);
         }
+        return q1.isEmpty() && q2.isEmpty();
     }
 }
-
