@@ -48,36 +48,55 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-class Solution {
-    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
-        if (root == null) return res;
+// class Solution {
+//     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+//         List<List<Integer>> res = new ArrayList<>();
+//         if (root == null) return res;
         
-        LinkedList<TreeNode> q = new LinkedList<>();
-        q.offer(root);
+//         LinkedList<TreeNode> q = new LinkedList<>();
+//         q.offer(root);
 
-        boolean leftToRight = true;
+//         boolean leftToRight = true;
 
-        while (!q.isEmpty()) {
-            List<Integer> temp = new ArrayList<>();
-            for (int i = q.size()-1; i >= 0; i--) {
-                TreeNode pop;
-                if (leftToRight) {
-                    pop = q.remove(0);
-                    if (pop.left != null) q.add(pop.left);
-                    if (pop.right != null) q.add(pop.right);
-                } else {
-                    pop = q.remove(q.size()-1);
-                    if (pop.right != null) q.add(0, pop.right);
-                    if (pop.left != null) q.add(0, pop.left);
-                }
-                temp.add(pop.val);
-            }
-            res.add(temp);
-            leftToRight = !leftToRight;
-        }
+//         while (!q.isEmpty()) {
+//             List<Integer> temp = new ArrayList<>();
+//             for (int i = q.size()-1; i >= 0; i--) {
+//                 TreeNode pop;
+//                 if (leftToRight) {
+//                     pop = q.remove(0);
+//                     if (pop.left != null) q.add(pop.left);
+//                     if (pop.right != null) q.add(pop.right);
+//                 } else {
+//                     pop = q.remove(q.size()-1);
+//                     if (pop.right != null) q.add(0, pop.right);
+//                     if (pop.left != null) q.add(0, pop.left);
+//                 }
+//                 temp.add(pop.val);
+//             }
+//             res.add(temp);
+//             leftToRight = !leftToRight;
+//         }
 
-        return res;
-    }
-}
+//         return res;
+//     }
+// }
 
+class Solution {
+     void helper(TreeNode root, int level, List<List<Integer>> res) {
+         if (root == null) return;
+         if (res.size() == level) res.add(new ArrayList<>());
+         if (level % 2 == 0) {
+             res.get(level).add(root.val);
+         } else {
+             res.get(level).add(0, root.val);
+         }
+         helper(root.left, level+1, res);
+         helper(root.right, level+1, res);
+     }
+
+     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+         List<List<Integer>> res = new ArrayList<>();
+         helper(root, 0, res);
+         return res;
+     }
+ }
